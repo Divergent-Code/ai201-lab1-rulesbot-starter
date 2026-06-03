@@ -4,7 +4,7 @@
 
 RulesBot answers natural language questions about board game rules using a RAG (Retrieval-Augmented Generation) pipeline. Ask it anything: it retrieves relevant rule passages and generates an answer grounded in the actual text.
 
-**This is a starter repo.** The UI and infrastructure are built. The retrieval and generation pipeline is yours to implement.
+**This is the completed RulesBot repository.** The UI, infrastructure, retrieval, and generation pipelines are fully implemented.
 
 ---
 
@@ -44,7 +44,7 @@ Open `.env` and replace `your_key_here` with your key from [console.groq.com](ht
 python app.py
 ```
 
-RulesBot will start and open in your browser. Before you implement the retrieval pipeline, it will load and display the UI but won't be able to answer questions.
+RulesBot will start and open in your browser. It is fully functional and ready to answer your questions based on the loaded rule books.
 
 ---
 
@@ -54,9 +54,9 @@ RulesBot will start and open in your browser. Before you implement the retrieval
 ai201-lab1-rulesbot-starter/
 ├── app.py              # Gradio UI and startup logic — fully built
 ├── config.py           # Settings (models, paths, retrieval params) — fully built
-├── ingest.py           # Document loading + chunking — TODO: chunk_document()
-├── retriever.py        # Vector store + semantic search — TODO: embed_and_store(), retrieve()
-├── generator.py        # LLM response generation — TODO: generate_response()
+├── ingest.py           # Document loading + chunking
+├── retriever.py        # Vector store + semantic search
+├── generator.py        # LLM response generation
 ├── docs/               # Board game rule documents (pre-loaded)
 │   ├── catan.md
 │   ├── clue.md
@@ -66,17 +66,17 @@ ai201-lab1-rulesbot-starter/
 │   ├── risk.md
 │   ├── ticket_to_ride.md
 │   └── uno.md
-├── specs/              # Design documents — start here before writing any code
-│   ├── system-design.md         # Complete — read this first
-│   ├── chunk-document-spec.md   # Partial — you complete before Milestone 1
-│   ├── retrieve-spec.md         # Partial — you complete before Milestone 2
-│   └── generate-response-spec.md # Partial — you complete before Milestone 3
-└── planning.md         # Your observations and reflections — fill in as you go
+├── specs/              # Design documents detailing technical decisions
+│   ├── system-design.md         # Complete
+│   ├── chunk-document-spec.md   # Complete
+│   ├── retrieve-spec.md         # Complete
+│   └── generate-response-spec.md # Complete
+└── planning.md         # Observations and reflections
 ```
 
-## Where to Start
+## Design Documentation
 
-Before opening any `.py` file, read `specs/system-design.md`. It explains what's built, what's left for you, and why the technical decisions were made. Each milestone then begins by completing the corresponding spec file before writing code — that spec becomes the brief you hand to your AI tool when you're ready to implement.
+Before diving into the code, read `specs/system-design.md`. It explains the architecture and why the technical decisions were made.
 
 ---
 
