@@ -60,27 +60,99 @@ def embed_and_store(chunks):
     print(f"Stored {_collection.count()} total chunks in the vector database.")
 
 
-def retrieve(query, n_results=N_RESULTS):
+# Cache of the distinct game names stored in the collection. Built lazily on
+# first use so query-time game inference doesn't re-scan the store every call.
+_known_games = None
+
+
+def _games_in_store():
+    """Return the set of distinct game names present in the vector store."""
+    global _known_games
+    if _known_games is None:
+        records = _collection.get(include=["metadatas"])
+        _known_games = {
+            m["game"]
+            for m in (records.get("metadatas") or [])
+            if m and m.get("game")
+        }
+    return _known_games
+
+
+def _infer_game_filter(query):
+    """
+    Build a metadata prefilter from the games mentioned in the query.
+
+    Matches stored game names against the query text so a question like
+    "How do you build a city in Catan?" is restricted to Catan's chunks
+    before the semantic search even runs. Returns a ChromaDB `where` dict, or
+    None when no game is confidently identified (so search stays global).
+    """
+    lowered = query.lower()
+    matched = sorted(g for g in _games_in_store() if g.lower() in lowered)
+
+    if not matched:
+        return None
+    if len(matched) == 1:
+        return {"game": matched[0]}
+    # More than one game named — restrict to just those.
+    return {"game": {"$in": matched}}
+
+
+def _format_results(results):
+    """Flatten ChromaDB's per-query nested result lists into a list of dicts."""
+    documents = (results.get("documents") or [[]])[0]
+    metadatas = (results.get("metadatas") or [[]])[0]
+    distances = (results.get("distances") or [[]])[0]
+
+    formatted = []
+    for text, meta, distance in zip(documents, metadatas, distances):
+        formatted.append({
+            "text": text,
+            "game": (meta or {}).get("game", "Unknown"),
+            "distance": distance,
+        })
+    return formatted
+
+
+def retrieve(query, n_results=N_RESULTS, where=None):
     """
     Find the most relevant rule chunks for a user's question.
 
-    TODO — Milestone 2:
+    Runs a semantic search over the vector store, optionally narrowed by a
+    metadata prefilter:
+      - If `where` is given, it is used directly as ChromaDB's filter.
+      - Otherwise the game is inferred from the query text (e.g. a question
+        mentioning "Catan" is restricted to Catan's chunks). This keeps
+        retrieval focused and avoids cross-game bleed between similar rules.
+      - If a prefiltered search comes back empty (e.g. the game was guessed
+        wrong, or that game has no matching rule), it falls back to an
+        unfiltered search so the bot can still answer.
 
-    Use _collection.query() to run a semantic search. It takes:
-      - query_texts : a list containing your query string
-      - n_results   : how many results to return
-      - include     : what to return — use ["documents", "metadatas", "distances"]
-
-    Return a list of dicts, each with:
+    Returns a list of dicts, each with:
       - "text"     : the chunk text
-      - "game"     : the game name (pull this from metadatas)
+      - "game"     : the game name (pulled from metadata)
       - "distance" : the similarity score (lower = more similar for cosine)
-
-    Note: _collection.query() returns nested lists (one per query). You only
-    have one query, so you'll want index [0] to get the actual results.
     """
     if _collection.count() == 0:
         return []
 
-    # Your implementation here.
-    return []
+    where_filter = where if where is not None else _infer_game_filter(query)
+
+    results = _collection.query(
+        query_texts=[query],
+        n_results=n_results,
+        where=where_filter,
+        include=["documents", "metadatas", "distances"],
+    )
+    formatted = _format_results(results)
+
+    # Fall back to an unfiltered search if the prefilter excluded everything.
+    if not formatted and where_filter is not None:
+        results = _collection.query(
+            query_texts=[query],
+            n_results=n_results,
+            include=["documents", "metadatas", "distances"],
+        )
+        formatted = _format_results(results)
+
+    return formatted
