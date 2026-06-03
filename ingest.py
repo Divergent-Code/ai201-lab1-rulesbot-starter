@@ -3,7 +3,8 @@ from config import DOCS_PATH
 
 
 def load_documents():
-    """Load all .md rule documents from the docs folder."""
+    """Load all .md rule documents and their sidecar metadata from the docs folder."""
+    import json
     documents = []
     for filename in sorted(os.listdir(DOCS_PATH)):
         if filename.endswith(".md"):
@@ -11,16 +12,29 @@ def load_documents():
             with open(filepath, "r", encoding="utf-8") as f:
                 text = f.read()
             game_name = filename.replace(".md", "").replace("_", " ").title()
+            
+            # Load sidecar metadata file if it exists
+            metadata = {}
+            json_filename = filename.replace(".md", ".json")
+            json_filepath = os.path.join(DOCS_PATH, json_filename)
+            if os.path.exists(json_filepath):
+                try:
+                    with open(json_filepath, "r", encoding="utf-8") as f_json:
+                        metadata = json.load(f_json)
+                except Exception as e:
+                    print(f"Warning: Failed to load metadata from {json_filepath}: {e}")
+
             documents.append({
                 "game": game_name,
                 "filename": filename,
                 "text": text,
+                "metadata": metadata,
             })
     print(f"Loaded {len(documents)} rule document(s): {[d['game'] for d in documents]}")
     return documents
 
 
-def chunk_document(text, game_name):
+def chunk_document(text, game_name, metadata=None):
     """
     Split a rule document into chunks ready for embedding.
 
@@ -41,6 +55,7 @@ def chunk_document(text, game_name):
       - "text"     : the chunk text (str)
       - "game"     : the game name, e.g. "Catan" (str)
       - "chunk_id" : a unique identifier, e.g. "catan_0", "catan_1" (str)
+      - "metadata" : the game's metadata dict (optional)
     """
     chunk_size = 300
     overlap = 50
@@ -56,11 +71,14 @@ def chunk_document(text, game_name):
         chunk_text = text[start:end].strip()
 
         if len(chunk_text) >= min_length:
-            chunks.append({
+            chunk_data = {
                 "text": chunk_text,
                 "game": game_name,
                 "chunk_id": f"{prefix}_{counter}",
-            })
+            }
+            if metadata:
+                chunk_data["metadata"] = metadata
+            chunks.append(chunk_data)
             counter += 1
 
         # Advance by (chunk_size - overlap) so the next chunk shares

@@ -28,7 +28,7 @@ def run_ingestion():
     all_chunks = []
 
     for doc in documents:
-        chunks = chunk_document(doc["text"], doc["game"])
+        chunks = chunk_document(doc["text"], doc["game"], doc.get("metadata"))
         all_chunks.extend(chunks)
 
     if all_chunks:

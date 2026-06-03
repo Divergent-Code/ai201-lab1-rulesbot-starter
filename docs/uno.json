@@ -1,0 +1,21 @@
+{
+  "game_name": "Uno",
+  "min_players": 2,
+  "max_players": 10,
+  "win_condition": "First player to accumulate 500 points across multiple rounds.",
+  "target_points": 500,
+  "setup_hand_size": 7,
+  "total_cards": 108,
+  "components": {
+    "total_cards": 108,
+    "blue_cards": 19,
+    "green_cards": 19,
+    "red_cards": 19,
+    "yellow_cards": 19,
+    "draw_two_cards": 8,
+    "reverse_cards": 8,
+    "skip_cards": 8,
+    "wild_cards": 4,
+    "wild_draw_four_cards": 4
+  }
+}

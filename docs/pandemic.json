@@ -1,0 +1,33 @@
+{
+  "game_name": "Pandemic",
+  "min_players": 1,
+  "max_players": 4,
+  "win_condition": "Discover cures for all four diseases.",
+  "lose_conditions": [
+    "Outbreak marker reaches 8",
+    "Any color of disease cubes runs out",
+    "Player draw pile is empty when a player must draw"
+  ],
+  "disease_colors_count": 4,
+  "max_outbreaks": 8,
+  "research_stations_count": 6,
+  "disease_cubes_per_color": 24,
+  "setup_hand_size_by_players": {
+    "2": 4,
+    "3": 3,
+    "4": 2
+  },
+  "components": {
+    "board": 1,
+    "infection_cards": 96,
+    "player_cards": 48,
+    "role_cards": 7,
+    "role_pawns": 7,
+    "disease_cubes": 96,
+    "cure_markers": 4,
+    "infection_rate_marker": 1,
+    "outbreak_marker": 1,
+    "research_stations": 6,
+    "dice": 2
+  }
+}

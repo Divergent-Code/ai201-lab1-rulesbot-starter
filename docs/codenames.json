@@ -1,0 +1,20 @@
+{
+  "game_name": "Codenames",
+  "min_players": 2,
+  "max_players": 8,
+  "win_condition": "First team to identify all of their agents (9 for starting team, 8 for second team).",
+  "starting_team_agents": 9,
+  "second_team_agents": 8,
+  "assassin_loss": true,
+  "components": {
+    "codename_cards": 200,
+    "key_cards": 40,
+    "card_stand": 1,
+    "red_agent_cards": 8,
+    "blue_agent_cards": 8,
+    "double_agent_card": 1,
+    "innocent_bystander_cards": 7,
+    "assassin_card": 1,
+    "sand_timer": 1
+  }
+}

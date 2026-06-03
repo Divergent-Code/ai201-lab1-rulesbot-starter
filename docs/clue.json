@@ -1,0 +1,21 @@
+{
+  "game_name": "Clue (Cluedo)",
+  "min_players": 2,
+  "max_players": 6,
+  "win_condition": "First player to make a correct accusation.",
+  "dice_count": 2,
+  "setup_hand_size": -1,
+  "sealed_cards_count": 3,
+  "components": {
+    "game_board": 1,
+    "suspect_tokens": 6,
+    "miniature_weapons": 6,
+    "total_cards": 21,
+    "suspect_cards": 6,
+    "weapon_cards": 6,
+    "room_cards": 9,
+    "confidential_envelope": 1,
+    "detective_notebooks": 6,
+    "dice": 2
+  }
+}

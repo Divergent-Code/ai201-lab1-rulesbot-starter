@@ -1,0 +1,24 @@
+{
+  "game_name": "Monopoly",
+  "min_players": 2,
+  "max_players": 8,
+  "win_condition": "Last player remaining after all others have gone bankrupt.",
+  "starting_cash": 1500,
+  "dice_count": 2,
+  "house_count": 32,
+  "hotel_count": 12,
+  "title_deed_cards_count": 28,
+  "chance_cards_count": 16,
+  "community_chest_cards_count": 16,
+  "components": {
+    "game_board": 1,
+    "title_deed_cards": 28,
+    "chance_cards": 16,
+    "community_chest_cards": 16,
+    "houses": 32,
+    "hotels": 12,
+    "dice": 2,
+    "tokens": 8,
+    "bankers_tray": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "game_name": "Risk",
+  "min_players": 2,
+  "max_players": 6,
+  "win_condition": "First player to complete their secret mission (or in classic, conquer all 42 territories).",
+  "territories_count": 42,
+  "continents_count": 6,
+  "dice_count": 5,
+  "attacker_max_dice": 3,
+  "defender_max_dice": 2,
+  "components": {
+    "game_board": 1,
+    "army_sets": 6,
+    "territory_cards": 42,
+    "wild_cards": 2,
+    "dice": 5
+  }
+}

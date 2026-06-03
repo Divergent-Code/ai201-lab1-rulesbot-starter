@@ -38,9 +38,23 @@ def embed_and_store(chunks):
     You don't generate embeddings manually here — you hand over the text
     and ChromaDB handles the vector math.
     """
+    metadatas = []
+    for c in chunks:
+        meta = {"game": c["game"]}
+        if "metadata" in c and c["metadata"]:
+            for k, v in c["metadata"].items():
+                if isinstance(v, (str, int, float, bool)):
+                    meta[k] = v
+                elif isinstance(v, list):
+                    meta[k] = ", ".join(map(str, v))
+                elif isinstance(v, dict):
+                    import json
+                    meta[k] = json.dumps(v)
+        metadatas.append(meta)
+
     _collection.add(
         documents=[c["text"] for c in chunks],
-        metadatas=[{"game": c["game"]} for c in chunks],
+        metadatas=metadatas,
         ids=[c["chunk_id"] for c in chunks],
     )
     print(f"Stored {_collection.count()} total chunks in the vector database.")

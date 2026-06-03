@@ -1,0 +1,26 @@
+{
+  "game_name": "Catan",
+  "min_players": 3,
+  "max_players": 4,
+  "win_condition": "First player to earn 10 Victory Points on their turn.",
+  "victory_points_to_win": 10,
+  "dice_count": 2,
+  "setup_hand_size": 0,
+  "starting_resources": "Based on terrain hexes adjacent to the second settlement only",
+  "components": {
+    "terrain_hexes": 19,
+    "sea_frames": 6,
+    "harbors": 9,
+    "number_tokens": 18,
+    "resource_cards": 95,
+    "development_cards": 25,
+    "building_cost_cards": 4,
+    "special_cards": 2,
+    "cities": 16,
+    "settlements": 20,
+    "roads": 60,
+    "dice": 2,
+    "robber": 1,
+    "sand_timer": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "game_name": "Ticket to Ride",
+  "min_players": 2,
+  "max_players": 5,
+  "win_condition": "Player with the most points after final scoring.",
+  "setup_hand_size": 4,
+  "setup_destination_tickets": 3,
+  "min_setup_destination_tickets_kept": 2,
+  "train_car_pieces_per_player": 45,
+  "components": {
+    "board_map": 1,
+    "train_car_cards": 240,
+    "destination_ticket_cards": 110,
+    "train_car_pieces_total": 225,
+    "scoring_markers": 5,
+    "longest_path_bonus_card": 1
+  }
+}
