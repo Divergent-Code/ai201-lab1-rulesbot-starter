@@ -8,7 +8,7 @@
 
 **RulesBot** is a Retrieval-Augmented Generation (RAG) chatbot that answers questions about board game rules. It ingests plain-text rule books, chunks them, embeds the chunks into a local vector store, and uses semantic search + an LLM to produce grounded, cited responses.
 
-This repository is a **lab starter project** designed for incremental implementation across three milestones. Some modules are fully implemented; others are deliberately stubbed and marked with TODOs for students (or agents) to complete.
+This repository began as a **lab starter project** designed for incremental implementation across three milestones. All three milestones are now implemented: header-aware chunking (`ingest.py`), semantic retrieval with metadata prefiltering (`retriever.py`), and grounded generation (`generator.py`).
 
 - **Language**: Python 3
 - **UI**: Gradio web interface (launches locally on port 7860 by default)
@@ -113,15 +113,15 @@ The codebase follows a **4-stage modular pipeline** with clear separation of con
 
 - **`config.py`** — Single source of truth. Exports constants loaded from environment variables (e.g., `GROQ_API_KEY`, `LLM_MODEL`, `EMBEDDING_MODEL`, `CHROMA_COLLECTION`, `CHROMA_PATH`, `N_RESULTS`, `DOCS_PATH`). No runtime mutation.
 - **`ingest.py`** — Data ingestion layer.
-  - `load_documents()`: Reads all `.md` files from `DOCS_PATH`, derives game names from filenames (`ticket_to_ride.md` → `"Ticket To Ride"`), returns dicts with `game`, `filename`, `text`.
-  - `chunk_document(text, game_name)`: Sliding-window character chunker (size=300, overlap=50, min_length=50). Returns chunks as `{"text": ..., "game": ..., "chunk_id": ...}`.
+  - `load_documents()`: Reads all `.md` files from `DOCS_PATH`, loads any matching `.json` sidecar as `metadata`, derives game names from filenames (`ticket_to_ride.md` → `"Ticket To Ride"`), returns dicts with `game`, `filename`, `text`, `metadata`.
+  - `chunk_document(text, game_name, metadata=None)`: **Header-aware splitter.** Splits Markdown on ATX headers (`split_by_headers()`), making one chunk per section with its header breadcrumb prepended; oversized sections fall back to a character sliding window (`_sliding_window()`, size=300, overlap=50, min_length=50). Returns chunks as `{"text": ..., "game": ..., "chunk_id": ...}` (plus `"metadata"` when provided).
 - **`retriever.py`** — Vector storage & retrieval layer.
   - Initializes `SentenceTransformerEmbeddingFunction`, `chromadb.PersistentClient`, and a collection with `metadata={"hnsw:space": "cosine"}` at module import time.
-  - `embed_and_store(chunks)`: Adds documents + metadata + IDs to ChromaDB. **Fully implemented.**
-  - `retrieve(query, n_results)`: **STUB** — currently returns `[]`. Intended to call `_collection.query()` and return ranked dicts with `text`, `game`, `distance`.
+  - `embed_and_store(chunks)`: Adds documents + metadata + IDs to ChromaDB, flattening sidecar metadata (lists → comma strings, dicts → JSON) into queryable scalar fields. **Fully implemented.**
+  - `retrieve(query, n_results, where=None)`: **Implemented.** Runs `_collection.query()` with a game metadata prefilter — inferred from the query text via `_infer_game_filter()` unless `where` is passed — and returns ranked dicts with `text`, `game`, `distance`. Falls back to an unfiltered search if a prefilter returns nothing.
 - **`generator.py`** — Generation layer.
   - Initializes `Groq` client at module import time.
-  - `generate_response(query, retrieved_chunks)`: **STUB** — returns a fallback message when `retrieved_chunks` is empty, otherwise returns a placeholder string. Intended to build a grounded prompt and call the Groq chat-completions API.
+  - `generate_response(query, retrieved_chunks)`: **Implemented.** Returns `_NO_RESULTS_MESSAGE` when `retrieved_chunks` is empty; otherwise drops weak matches (distance > `RELEVANCE_THRESHOLD`), builds a labelled `[Excerpt N — Game]` context block, and calls the Groq chat-completions API with a strict grounding/citation system prompt (`temperature=0.2`). Wraps the API call to return a readable error string instead of throwing.
 - **`app.py`** — Presentation & orchestration layer.
   - `run_ingestion()`: Idempotent loader. Skips if `collection.count() > 0`.
   - `chat(message, history)`: Thin wrapper calling `retrieve()` then `generate_response()`.
@@ -139,14 +139,14 @@ The codebase follows a **4-stage modular pipeline** with clear separation of con
 
 | Milestone | File | Function / Task | Status |
 |-----------|------|-----------------|--------|
-| Pre-built | `ingest.py` | `chunk_document()` | ✅ Complete |
+| Pre-built | `ingest.py` | `chunk_document()` | ✅ Complete — header-aware splitting |
 | Pre-built | `retriever.py` | `embed_and_store()` | ✅ Complete |
-| Milestone 2 | `retriever.py` | `retrieve()` | 🔲 Stub — must implement ChromaDB query + result formatting |
-| Milestone 2 | `specs/retrieve-spec.md` | Fill design decisions | 🔲 Blank template |
-| Milestone 3 | `generator.py` | `generate_response()` | 🔲 Stub — must implement prompt construction + Groq API call |
-| Milestone 3 | `specs/generate-response-spec.md` | Fill design decisions | 🔲 Blank template |
+| Milestone 2 | `retriever.py` | `retrieve()` | ✅ Complete — ChromaDB query + metadata prefilter + result formatting |
+| Milestone 2 | `specs/retrieve-spec.md` | Design decisions | ✅ Filled |
+| Milestone 3 | `generator.py` | `generate_response()` | ✅ Complete — grounded prompt + Groq API call |
+| Milestone 3 | `specs/generate-response-spec.md` | Design decisions | ✅ Filled |
 
-**Consequence**: The app launches and the UI renders, but every chat query currently returns either a fallback "no results" message or a placeholder "not yet implemented" string because `retrieve()` returns an empty list.
+**Consequence**: The full RAG pipeline is wired end to end — a chat query is embedded, prefiltered by game, semantically retrieved, and answered with a grounded, cited response. The fallback "no results" message only appears when retrieval genuinely finds nothing relevant.
 
 ---
 
@@ -195,10 +195,10 @@ If you add automated tests, place them in a `tests/` directory and update this s
 
 | File | Why it matters |
 |------|----------------|
-| `config.py` | Change models, API keys, paths, and retrieval counts here. |
-| `retriever.py` | **Primary work area for Milestone 2.** Implement `retrieve()`. |
-| `generator.py` | **Primary work area for Milestone 3.** Implement `generate_response()`. |
-| `ingest.py` | Already complete; only modify if you change chunking strategy. |
+| `config.py` | Change models, API keys, paths, retrieval counts, and `RELEVANCE_THRESHOLD` here. |
+| `retriever.py` | Semantic search + game metadata prefiltering (`retrieve()`, `_infer_game_filter()`). |
+| `generator.py` | Grounded prompt construction + Groq call (`generate_response()`, `_SYSTEM_PROMPT`). |
+| `ingest.py` | Header-aware chunking (`chunk_document()`, `split_by_headers()`). Modify if you change chunking strategy. |
 | `app.py` | UI wiring. Usually does not need changes unless you alter the Gradio layout. |
 | `specs/*.md` | Design specs that should be updated as you make implementation decisions. |
 | `docs/*.md` | Source documents. Add new `.md` files here to expand the knowledge base. |
@@ -209,5 +209,5 @@ If you add automated tests, place them in a `tests/` directory and update this s
 
 - **First-run download**: `sentence-transformers` downloads `all-MiniLM-L6-v2` on first use. The machine needs internet access for this initial download (and for Groq API calls).
 - **ChromaDB persistence**: Deleting `./chroma_db` is the only way to force re-ingestion. The app will not auto-detect new docs in `docs/` after the first run.
-- **Stub behavior**: Because `retrieve()` returns `[]`, `generate_response()` never reaches its "real" LLM branch during normal chat usage. You must implement `retrieve()` first before `generate_response()` can be meaningfully tested.
+- **Re-ingest after chunking changes**: The chunking strategy is header-aware. If you change `chunk_document()`, delete `./chroma_db` and restart so the store is rebuilt — the app skips ingestion when the collection is already populated.
 - **No async/await**: The codebase is entirely synchronous. Groq, ChromaDB, and Gradio are used in blocking mode.

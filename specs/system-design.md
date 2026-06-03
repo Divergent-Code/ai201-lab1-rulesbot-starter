@@ -1,7 +1,7 @@
 # RulesBot — System Design
 
-**Status:** Complete
-**Last updated:** March 2026
+**Status:** Complete — all four pipeline stages implemented
+**Last updated:** June 2026
 
 ---
 
@@ -28,8 +28,8 @@ User query
     │
     ▼
 [2] RETRIEVE        ──► Query is embedded and matched against stored chunks
-    retriever.py         via semantic similarity search
-    │
+    retriever.py         via semantic search, narrowed by a game metadata
+    │                    prefilter inferred from the query
     ▼
 [3] GENERATE        ──► Retrieved chunks are passed as context to an LLM,
     generator.py         which produces a grounded, cited answer
@@ -39,7 +39,9 @@ User query
     app.py
 ```
 
-Components 1 and 4 are fully implemented. Components 2 and 3 are partially implemented — the infrastructure is in place, but the core logic is stubbed out and left for you.
+All four components are implemented. Ingestion uses header-aware chunking,
+retrieval applies a game metadata prefilter, and generation is grounded
+strictly in the retrieved excerpts.
 
 ---
 
@@ -70,14 +72,14 @@ Lower distance = more similar. Results from `_collection.query()` include a `dis
 | File | Status | What it does |
 |------|--------|-------------|
 | `app.py` | ✅ Complete | Gradio UI, startup orchestration, ingestion trigger |
-| `config.py` | ✅ Complete | Central configuration for models, paths, retrieval params |
-| `ingest.py` — `load_documents()` | ✅ Complete | Reads all `.md` files from `/docs`, returns structured dicts |
-| `ingest.py` — `chunk_document()` | 🔲 Your spec + implementation | Splits a document into chunks for embedding |
+| `config.py` | ✅ Complete | Central configuration for models, paths, retrieval params (incl. `RELEVANCE_THRESHOLD`) |
+| `ingest.py` — `load_documents()` | ✅ Complete | Reads all `.md` files from `/docs` plus `.json` sidecar metadata, returns structured dicts |
+| `ingest.py` — `chunk_document()` | ✅ Complete | Header-aware splitting: one chunk per Markdown section, with a sliding-window fallback for oversized sections |
 | `retriever.py` — ChromaDB init | ✅ Complete | Client, collection, and embedding function are initialized |
-| `retriever.py` — `embed_and_store()` | 🔲 Your spec + implementation | Embeds chunks and adds them to the collection |
-| `retriever.py` — `retrieve()` | 🔲 Your spec + implementation | Runs semantic search for a query, returns ranked chunks |
+| `retriever.py` — `embed_and_store()` | ✅ Complete | Embeds chunks and adds them to the collection, flattening sidecar metadata into queryable fields |
+| `retriever.py` — `retrieve()` | ✅ Complete | Semantic search with a game metadata prefilter inferred from the query; returns ranked chunks |
 | `generator.py` — Groq client init | ✅ Complete | Client is initialized and ready |
-| `generator.py` — `generate_response()` | 🔲 Your spec + implementation | Formats context and generates a grounded answer |
+| `generator.py` — `generate_response()` | ✅ Complete | Filters weak matches, formats labelled context, and generates a grounded, cited answer |
 
 ---
 
