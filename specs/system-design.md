@@ -71,7 +71,7 @@ Lower distance = more similar. Results from `_collection.query()` include a `dis
 |------|--------|-------------|
 | `app.py` | ✅ Complete | Gradio UI, startup orchestration, ingestion trigger |
 | `config.py` | ✅ Complete | Central configuration for models, paths, retrieval params |
-| `ingest.py` — `load_documents()` | ✅ Complete | Reads all `.txt` files from `/docs`, returns structured dicts |
+| `ingest.py` — `load_documents()` | ✅ Complete | Reads all `.md` files from `/docs`, returns structured dicts |
 | `ingest.py` — `chunk_document()` | 🔲 Your spec + implementation | Splits a document into chunks for embedding |
 | `retriever.py` — ChromaDB init | ✅ Complete | Client, collection, and embedding function are initialized |
 | `retriever.py` — `embed_and_store()` | 🔲 Your spec + implementation | Embeds chunks and adds them to the collection |

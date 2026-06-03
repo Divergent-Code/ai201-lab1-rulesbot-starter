@@ -44,14 +44,14 @@ This repository is a **lab starter project** designed for incremental implementa
 ├── README.md                  # Human-facing setup guide
 ├── planning.md                # Student design-decision template
 ├── docs/                      # 8 plain-text rule books
-│   ├── catan.txt
-│   ├── clue.txt
-│   ├── codenames.txt
-│   ├── monopoly.txt
-│   ├── pandemic.txt
-│   ├── risk.txt
-│   ├── ticket_to_ride.txt
-│   └── uno.txt
+│   ├── catan.md
+│   ├── clue.md
+│   ├── codenames.md
+│   ├── monopoly.md
+│   ├── pandemic.md
+│   ├── risk.md
+│   ├── ticket_to_ride.md
+│   └── uno.md
 └── specs/                     # Design specifications
     ├── system-design.md       # Architecture overview + build-status matrix
     ├── chunk-document-spec.md # Chunking design rationale (pre-filled)
@@ -113,7 +113,7 @@ The codebase follows a **4-stage modular pipeline** with clear separation of con
 
 - **`config.py`** — Single source of truth. Exports constants loaded from environment variables (e.g., `GROQ_API_KEY`, `LLM_MODEL`, `EMBEDDING_MODEL`, `CHROMA_COLLECTION`, `CHROMA_PATH`, `N_RESULTS`, `DOCS_PATH`). No runtime mutation.
 - **`ingest.py`** — Data ingestion layer.
-  - `load_documents()`: Reads all `.txt` files from `DOCS_PATH`, derives game names from filenames (`ticket_to_ride.txt` → `"Ticket To Ride"`), returns dicts with `game`, `filename`, `text`.
+  - `load_documents()`: Reads all `.md` files from `DOCS_PATH`, derives game names from filenames (`ticket_to_ride.md` → `"Ticket To Ride"`), returns dicts with `game`, `filename`, `text`.
   - `chunk_document(text, game_name)`: Sliding-window character chunker (size=300, overlap=50, min_length=50). Returns chunks as `{"text": ..., "game": ..., "chunk_id": ...}`.
 - **`retriever.py`** — Vector storage & retrieval layer.
   - Initializes `SentenceTransformerEmbeddingFunction`, `chromadb.PersistentClient`, and a collection with `metadata={"hnsw:space": "cosine"}` at module import time.
@@ -159,7 +159,7 @@ There is **no enforced linter or formatter** in this project (no `ruff`, `black`
 - **String formatting**: Uses f-strings consistently.
 - **Naming**: `snake_case` for functions and variables, `PascalCase` for Gradio component classes.
 - **Chunk IDs**: Format is `{lowercase_underscored_game}_{counter}` (e.g., `ticket_to_ride_0`).
-- **Game name normalization**: `filename.replace(".txt", "").replace("_", " ").title()`.
+- **Game name normalization**: `filename.replace(".md", "").replace("_", " ").title()`.
 
 When editing, preserve these conventions. Do not introduce type hints unless the surrounding file already uses them (currently none do).
 
@@ -201,7 +201,7 @@ If you add automated tests, place them in a `tests/` directory and update this s
 | `ingest.py` | Already complete; only modify if you change chunking strategy. |
 | `app.py` | UI wiring. Usually does not need changes unless you alter the Gradio layout. |
 | `specs/*.md` | Design specs that should be updated as you make implementation decisions. |
-| `docs/*.txt` | Source documents. Add new `.txt` files here to expand the knowledge base. |
+| `docs/*.md` | Source documents. Add new `.md` files here to expand the knowledge base. |
 
 ---
 

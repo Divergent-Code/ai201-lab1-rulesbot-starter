@@ -1,20 +1,20 @@
-UNO — OFFICIAL RULES SUMMARY
+# Uno — Official Rules Summary
 
-OVERVIEW
+## OVERVIEW
 Uno is a card game for 2–10 players. Players race to be the first to empty their hand by matching cards in the discard pile by color or number. Special action cards disrupt opponents and change the flow of play. The first player to reach 500 points across multiple rounds wins.
 
-COMPONENTS
+## COMPONENTS
 108 cards: 19 blue cards (0–9), 19 green cards (0–9), 19 red cards (0–9), 19 yellow cards (0–9), 8 Draw Two cards (2 per color), 8 Reverse cards (2 per color), 8 Skip cards (2 per color), 4 Wild cards, and 4 Wild Draw Four cards.
 
-SETUP
+## SETUP
 Shuffle the deck and deal 7 cards to each player. Place the remaining cards face down as the draw pile. Flip the top card to start the discard pile. If the first flipped card is a Wild Draw Four, return it to the deck and flip again. If it is any other action card, its effect applies immediately to the first player.
 
-MATCHING RULES
+## MATCHING RULES
 On your turn, you must play one card that matches the top card of the discard pile by color, number, or type. For example, on a Red 7 you may play any red card or any 7. You may also play a Wild card on any turn regardless of the current color.
 
 If you cannot play, draw one card from the draw pile. If the drawn card is playable, you may play it immediately. If not, your turn ends.
 
-SPECIAL ACTION CARDS
+## SPECIAL ACTION CARDS
 
 Draw Two: The next player must draw 2 cards and forfeit their turn. Can only be played on a matching color or another Draw Two card.
 
@@ -26,19 +26,19 @@ Wild: Change the current color to any color you choose, including the current co
 
 Wild Draw Four: Change the current color and force the next player to draw 4 cards and lose their turn. Can only be played when you have no other playable card in your hand that matches the current color. (You may have a playable Wild card and still play Wild Draw Four.) This card may be challenged.
 
-CHALLENGING A WILD DRAW FOUR
+## CHALLENGING A WILD DRAW FOUR
 If a Wild Draw Four is played against you, you may challenge the player who played it. The player must show their hand privately to the challenger. If the challenge is successful (the player had a matching color card they could have played), they must draw 4 cards instead of you. If the challenge fails, you must draw 6 cards (the original 4 plus 2 more) and lose your turn.
 
-STACKING (OFFICIAL RULES NOTE)
+## STACKING (OFFICIAL RULES NOTE)
 The official Uno rules do not permit stacking — playing a Draw Two on top of another Draw Two to pass the penalty to the next player. This is a common house rule but is not part of the standard game. Each Draw Two or Wild Draw Four affects only the designated next player.
 
-CALLING UNO
+## CALLING UNO
 When you play your second-to-last card and have only one card remaining, you must immediately call "Uno!" If another player catches you failing to call Uno before the next player takes their turn, you must draw 2 cards as a penalty.
 
-PLAYING YOUR LAST CARD
+## PLAYING YOUR LAST CARD
 You win the round by playing your last card. You cannot end on a Wild Draw Four unless it is your only legal play. If your last card is a Draw Two or Skip, the affected player still draws or loses their turn — you win regardless.
 
-SCORING A ROUND
+## SCORING A ROUND
 The winner of the round scores points based on the cards left in all other players' hands:
 - Number cards (0–9): face value
 - Draw Two: 20 points
@@ -47,11 +47,11 @@ The winner of the round scores points based on the cards left in all other playe
 - Wild: 50 points
 - Wild Draw Four: 50 points
 
-WINNING THE GAME
+## WINNING THE GAME
 The first player to accumulate 500 points across multiple rounds wins. Alternatively, for a shorter game, play a set number of rounds and the player with the highest score at the end wins.
 
-TWO-PLAYER RULES
+## TWO-PLAYER RULES
 In a two-player game, Reverse cards act as Skip cards — playing a Reverse immediately gives you another turn. All other rules remain the same.
 
-TOURNAMENT STYLE
+## TOURNAMENT STYLE
 For competitive play, each round's loser deals the next round, and the game continues until one player reaches 500 points. In tournament play, Wild Draw Four challenges are enforced strictly.

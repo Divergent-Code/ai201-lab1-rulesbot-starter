@@ -1,18 +1,18 @@
-CODENAMES — OFFICIAL RULES SUMMARY
+# Codenames — Official Rules Summary
 
-OVERVIEW
+## OVERVIEW
 Codenames is a social word game for 2–8+ players, split into two competing teams: Red and Blue. Each team has one Spymaster and at least one Field Operative. Spymasters know the secret identities of 25 codename cards on the table. Field Operatives must identify their team's agents using only one-word clues given by their Spymaster. The team that contacts all their agents first wins.
 
-COMPONENTS
+## COMPONENTS
 200 double-sided codename cards (400 unique codenames), 40 key cards (showing the secret grid), 1 card stand, 8 red agent cards, 8 blue agent cards, 1 double agent card, 7 innocent bystander cards, 1 assassin card, and a sand timer.
 
-SETUP
+## SETUP
 Randomly select 25 codename cards and arrange them in a 5×5 grid. One Spymaster from each team sits together on one side of the table. They randomly draw a key card, insert it into the stand facing them, and do not show it to anyone else. The key card shows which codenames belong to Red, which to Blue, which are innocent bystanders, and which is the assassin. The team whose color appears in the corner of the key card goes first. That team places the double agent card on their side — they must find 9 agents; the other team has 8. Lay the agent cards, bystander cards, and the assassin card nearby.
 
-HOW TO PLAY
+## HOW TO PLAY
 Teams alternate turns. On each turn, the active team's Spymaster gives a clue, then the Field Operatives guess.
 
-THE SPYMASTER'S CLUE
+## THE SPYMASTER'S CLUE
 The Spymaster looks at the key card and gives a one-word clue followed by a number. The word hints at the meaning of one or more codenames the Spymaster wants their team to guess. The number tells the team how many codenames are related to that clue. For example: "FRUIT 2" suggests two codenames on the grid are somehow connected to fruit.
 
 Clue rules — the clue word:
@@ -24,7 +24,7 @@ Clue rules — the clue word:
 
 The number after the clue indicates how many codenames relate to it. You may say "zero" to give a clue that intentionally does not relate to any codename. You may say "unlimited" when your clue relates to any number of codenames.
 
-FIELD OPERATIVES GUESSING
+## FIELD OPERATIVES GUESSING
 After the clue is given, Field Operatives discuss quietly among themselves and touch one codename card to guess. The Spymaster immediately covers it with the appropriate identity card (agent, bystander, or assassin):
 - If it is your team's agent: cover it with your team's agent card. You may guess again.
 - If it is the other team's agent: cover it with their agent card. Your turn ends immediately.
@@ -33,10 +33,10 @@ After the clue is given, Field Operatives discuss quietly among themselves and t
 
 Field Operatives may make up to one more guess than the number stated in the clue (so "FRUIT 2" allows up to 3 guesses). They may also choose to stop guessing at any time and end their turn voluntarily. Operatives may attempt to guess codenames from previous clues if they believe they now understand them.
 
-PASSING
+## PASSING
 A team may choose not to guess at all and pass their turn after the Spymaster gives the clue.
 
-WINNING
+## WINNING
 A team wins when all of their agents have been identified and covered. A team loses immediately if their Operatives touch the assassin card.
 
 CODENAMES: DUET (two-player variant)

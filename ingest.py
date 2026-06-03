@@ -3,14 +3,14 @@ from config import DOCS_PATH
 
 
 def load_documents():
-    """Load all .txt rule documents from the docs folder."""
+    """Load all .md rule documents from the docs folder."""
     documents = []
     for filename in sorted(os.listdir(DOCS_PATH)):
-        if filename.endswith(".txt"):
+        if filename.endswith(".md"):
             filepath = os.path.join(DOCS_PATH, filename)
             with open(filepath, "r", encoding="utf-8") as f:
                 text = f.read()
-            game_name = filename.replace(".txt", "").replace("_", " ").title()
+            game_name = filename.replace(".md", "").replace("_", " ").title()
             documents.append({
                 "game": game_name,
                 "filename": filename,

@@ -58,14 +58,14 @@ ai201-lab1-rulesbot-starter/
 ├── retriever.py        # Vector store + semantic search — TODO: embed_and_store(), retrieve()
 ├── generator.py        # LLM response generation — TODO: generate_response()
 ├── docs/               # Board game rule documents (pre-loaded)
-│   ├── catan.txt
-│   ├── clue.txt
-│   ├── codenames.txt
-│   ├── monopoly.txt
-│   ├── pandemic.txt
-│   ├── risk.txt
-│   ├── ticket_to_ride.txt
-│   └── uno.txt
+│   ├── catan.md
+│   ├── clue.md
+│   ├── codenames.md
+│   ├── monopoly.md
+│   ├── pandemic.md
+│   ├── risk.md
+│   ├── ticket_to_ride.md
+│   └── uno.md
 ├── specs/              # Design documents — start here before writing any code
 │   ├── system-design.md         # Complete — read this first
 │   ├── chunk-document-spec.md   # Partial — you complete before Milestone 1
@@ -96,11 +96,11 @@ python app.py
 
 | Game | File |
 |------|------|
-| Catan | `docs/catan.txt` |
-| Clue | `docs/clue.txt` |
-| Codenames | `docs/codenames.txt` |
-| Monopoly | `docs/monopoly.txt` |
-| Pandemic | `docs/pandemic.txt` |
-| Risk | `docs/risk.txt` |
-| Ticket to Ride | `docs/ticket_to_ride.txt` |
-| Uno | `docs/uno.txt` |
+| Catan | `docs/catan.md` |
+| Clue | `docs/clue.md` |
+| Codenames | `docs/codenames.md` |
+| Monopoly | `docs/monopoly.md` |
+| Pandemic | `docs/pandemic.md` |
+| Risk | `docs/risk.md` |
+| Ticket to Ride | `docs/ticket_to_ride.md` |
+| Uno | `docs/uno.md` |
